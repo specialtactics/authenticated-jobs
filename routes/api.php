@@ -2,6 +2,8 @@
 
 use Dingo\Api\Routing\Router;
 use Illuminate\Http\Request;
+use App\Models\User;
+use \App\Jobs\FirstJob;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,12 @@ use Illuminate\Http\Request;
  * Welcome route - link to any public API documentation here
  */
 Route::get('/', function () {
-    echo 'Welcome to our API';
+    $user = User::first();
+    auth()->setUser($user);
+
+    FirstJob::dispatch();
+
+    echo 'Test job dispatched';
 });
 
 /** @var \Dingo\Api\Routing\Router $api */
